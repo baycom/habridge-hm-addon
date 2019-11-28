@@ -1,6 +1,6 @@
 #!/bin/tclsh
 
-set checkURL "https://raw.githubusercontent.com/baycom/habridge-hm-addon/master/VERSION"
+set checkURL "https://raw.githubusercontent.com/baycom/habridge-hm-addon/master/data/VERSION"
 set downloadURL "https://github.com/baycom/habridge-hm-addon/releases/latest"
 
 catch {
