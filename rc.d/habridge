@@ -30,7 +30,14 @@ case "$1" in
     ;;
 
   info)
+    VER=$(cat ${ADDONDIR}/VERSION)
+    echo "Version: ${VER}"
+    echo "Info: <b>habridge Addon</b><br>"
+    echo "Info: <a href='https://github.com/baycom/habridge-hm-addon'>habridge-hm-addon at GitHub</a>"
+    echo "Name: habridge"
     echo "Operations: uninstall restart"
+    echo "Config-Url: /addons/habridge/config.html"
+    echo "Update: /addons/habridge/update-check.cgi"
     ;;
 
   stop)
@@ -47,7 +54,7 @@ case "$1" in
   uninstall)
 	do_stop
     	rm -rf ${ADDONDIR}
-    	rm /etc/config/rc.d/97habridge
+        rm /usr/local/etc/config/rc.d/habridge
     	echo "OK"
     ;;
 
