@@ -1,0 +1,61 @@
+#!/bin/sh
+HOMEPATH=/usr/local/addons/habridge/
+DAEMON=/opt/java/bin/java
+DAEMON_ARGS="-jar -Dserver.port=8080 ${HOMEPATH}ha-bridge-5.3.0.jar"
+PIDFILE=/var/run/habridge.pid
+
+ADDONNAME=habridge
+ADDONDIR=${HOMEPATH}
+
+# change to addon directory
+cd ${HOMEPATH}
+
+do_start()
+{
+	start-stop-daemon --start --quiet --make-pidfile --background --nicelevel -10 --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
+}
+
+do_stop()
+{
+	start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE
+	if [ -e $PIDFILE ];then
+		rm $PIDFILE
+	fi		
+}
+
+case "$1" in
+  ""|start)
+   	do_start
+   	echo "OK"
+    ;;
+
+  info)
+    echo "Operations: uninstall restart"
+    ;;
+
+  stop)
+ 	echo -n "Stopping habridge: "
+	do_stop
+	echo "OK"
+    ;;
+    
+  restart)
+	do_stop
+	do_start
+    ;;
+    
+  uninstall)
+	do_stop
+    	rm -rf ${ADDONDIR}
+    	rm /etc/config/rc.d/97habridge
+    	echo "OK"
+    ;;
+
+  *)
+    	echo "usage:"
+    	echo "  ${ADDONNAME} [info|start|stop|restart|uninstall]"
+	exit 1
+    ;;
+esac
+
+exit 0
